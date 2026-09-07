@@ -45,10 +45,10 @@ export default function ProductsPage() {
           </p>
 
           <SidebarItem icon="⌂" title="Dashboard" />
-           <Link href="/addnewproduct"><SidebarItem icon="◇" title="Add product" /></Link>
+          <Link href="/addnewproduct"><SidebarItem icon="◇" title="Add product" /></Link>
           <Link href="/editanddelet"><SidebarItem icon="▦" title="product edit & delete" /></Link>
-         <Link href="/users"><SidebarItem icon="♙" title="User" /></Link>
-         <Link href="/orders"> <SidebarItem icon="▤" title="orders" /></Link>
+          <Link href="/users"><SidebarItem icon="♙" title="User" /></Link>
+          <Link href="/orders"> <SidebarItem icon="▤" title="orders" /></Link>
 
           {/* <p className="mb-5 mt-8 text-[10px] font-semibold uppercase tracking-widest text-indigo-400">
             Elements
@@ -73,11 +73,11 @@ export default function ProductsPage() {
       </aside>
 
 
-      
-       <main className="lg:ml-[250px]">
+
+      <main className="lg:ml-[250px]">
 
         {/* ================= TOP NAVBAR ================= */}
-         {/* <header className="flex h-[75px] items-center justify-between border-b bg-white px-5 shadow-sm md:px-8">
+        {/* <header className="flex h-[75px] items-center justify-between border-b bg-white px-5 shadow-sm md:px-8">
 
           <div className="flex items-center gap-4">
 
@@ -135,7 +135,7 @@ export default function ProductsPage() {
 
 
         {/* ================= CONTENT ================= */}
-         <section className="p-4 md:p-6">
+        <section className="p-4 md:p-6">
 
           {/* Breadcrumb */}
           <div className="mb-5">
@@ -255,22 +255,20 @@ export default function ProductsPage() {
 
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`rounded px-3 py-2 ${
-                      viewMode === "grid"
+                    className={`rounded px-3 py-2 ${viewMode === "grid"
                         ? "bg-indigo-500 text-white"
                         : "bg-gray-100"
-                    }`}
+                      }`}
                   >
                     ▦
                   </button>
 
                   <button
                     onClick={() => setViewMode("list")}
-                    className={`rounded px-3 py-2 ${
-                      viewMode === "list"
+                    className={`rounded px-3 py-2 ${viewMode === "list"
                         ? "bg-indigo-500 text-white"
                         : "bg-gray-100"
-                    }`}
+                      }`}
                   >
                     ☷
                   </button>
@@ -373,9 +371,8 @@ function ProductCard({ product, listMode }) {
 
   return (
     <div
-      className={`relative overflow-hidden rounded-md bg-white shadow-sm transition hover:shadow-md ${
-        listMode ? "flex items-center gap-5 p-4" : ""
-      }`}
+      className={`relative overflow-hidden rounded-md bg-white shadow-sm transition hover:shadow-md ${listMode ? "flex items-center gap-5 p-4" : ""
+        }`}
     >
 
       {/* Wishlist */}
@@ -394,7 +391,7 @@ function ProductCard({ product, listMode }) {
       >
 
         <img
-          src={product.image}
+          src={`https://zamart-backend3.onrender.com${product.image}`}
           alt={product.product_name || product.name}
           className="h-full w-full object-contain"
         />
