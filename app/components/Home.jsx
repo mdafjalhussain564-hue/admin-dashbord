@@ -14,6 +14,7 @@ export default function ProductsPage() {
     axios
       .get(`${API_URL}/api/getproduct`)
       .then((res) => {
+        console.log("PRODUCT DATA:", res.data.data);
         setProducts(res.data.data || []);
       })
       .catch((err) => {
@@ -256,8 +257,8 @@ export default function ProductsPage() {
                   <button
                     onClick={() => setViewMode("grid")}
                     className={`rounded px-3 py-2 ${viewMode === "grid"
-                        ? "bg-indigo-500 text-white"
-                        : "bg-gray-100"
+                      ? "bg-indigo-500 text-white"
+                      : "bg-gray-100"
                       }`}
                   >
                     ▦
@@ -266,8 +267,8 @@ export default function ProductsPage() {
                   <button
                     onClick={() => setViewMode("list")}
                     className={`rounded px-3 py-2 ${viewMode === "list"
-                        ? "bg-indigo-500 text-white"
-                        : "bg-gray-100"
+                      ? "bg-indigo-500 text-white"
+                      : "bg-gray-100"
                       }`}
                   >
                     ☷
@@ -380,6 +381,7 @@ function ProductCard({ product, listMode }) {
         ♡
       </button>
 
+    
 
       {/* Image */}
       <div

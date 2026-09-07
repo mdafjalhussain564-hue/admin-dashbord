@@ -4,9 +4,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = "https://zamart-backend3.onrender.com";
+
 const AddProduct = () => {
     const [products, setProducts] = useState([]);
     const [editId, setEditId] = useState(null);
+    
 
     const [formData, setFormData] = useState({
         product_name: "",
@@ -151,7 +154,11 @@ const AddProduct = () => {
 
                                 <td className="px-6 py-4">
                                     <img
-                                        src={product.image}
+                                        src={
+                                            product.image?.startsWith("/uploads/")
+                                                ? `${API_URL}${product.image}`
+                                                : product.image
+                                        }
                                         alt={product.product_name}
                                         className="h-16 w-16 object-contain"
                                     />
@@ -176,11 +183,11 @@ const AddProduct = () => {
                                 <td className="px-6 py-4">
                                     {product.mrp
                                         ? Math.round(
-                                              ((product.mrp -
-                                                  product.price) /
-                                                  product.mrp) *
-                                                  100
-                                          )
+                                            ((product.mrp -
+                                                product.price) /
+                                                product.mrp) *
+                                            100
+                                        )
                                         : 0}
                                     % OFF
                                 </td>
@@ -370,7 +377,11 @@ const AddProduct = () => {
 
                                 {formData.image && (
                                     <img
-                                        src={formData.image}
+                                        src={
+                                            formData.image?.startsWith("/uploads/")
+                                                ? `${API_URL}${formData.image}`
+                                                : formData.image
+                                        }
                                         alt="Product"
                                         className="mt-3 h-24 w-24 rounded-lg object-contain"
                                     />
