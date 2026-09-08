@@ -9,7 +9,7 @@ const API_URL = "https://zamart-backend3.onrender.com";
 const AddProduct = () => {
     const [products, setProducts] = useState([]);
     const [editId, setEditId] = useState(null);
-    
+
 
     const [formData, setFormData] = useState({
         product_name: "",
@@ -72,19 +72,33 @@ const AddProduct = () => {
         e.preventDefault();
 
         try {
+            const data = new FormData();
+
+            data.append("product_name", formData.product_name);
+            data.append("description", formData.description);
+            data.append("mrp", formData.mrp);
+            data.append("price", formData.price);
+            data.append("rating", formData.rating);
+            data.append("brand", formData.brand);
+            data.append("category", formData.category);
+            data.append("visible", formData.visible);
+
+            // Sirf tab image bhejo jab new image select ki ho
+            if (formData.image instanceof File) {
+                data.append("image", formData.image);
+            }
+
             const res = await axios.put(
                 `https://zamart-backend3.onrender.com/api/product/${editId}`,
-                formData
+                data
             );
 
             console.log("UPDATE:", res.data);
 
             alert("Product updated successfully");
 
-            // Modal close
             setEditId(null);
 
-            // Products refresh
             getProducts();
 
         } catch (error) {
@@ -361,28 +375,35 @@ const AddProduct = () => {
                             </div>
 
                             {/* Image */}
+                            {/* Image */}
                             <div className="md:col-span-2">
 
                                 <label className="mb-2 block font-medium">
-                                    Image URL
+                                    Product Image
                                 </label>
 
                                 <input
-                                    type="text"
+                                    type="file"
                                     name="image"
-                                    value={formData.image}
-                                    onChange={handleChange}
-                                    className="w-full rounded-lg border px-4 py-2 outline-none focus:border-blue-500"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+
+                                        if (file) {
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                image: file,
+                                            }));
+                                        }
+                                    }}
+                                    className="w-full rounded-lg border px-4 py-2"
                                 />
 
-                                {formData.image && (
+                                {/* New Image Preview */}
+                                {formData.image instanceof File && (
                                     <img
-                                        src={
-                                            formData.image?.startsWith("/uploads/")
-                                                ? `${API_URL}${formData.image}`
-                                                : formData.image
-                                        }
-                                        alt="Product"
+                                        src={URL.createObjectURL(formData.image)}
+                                        alt="New Product"
                                         className="mt-3 h-24 w-24 rounded-lg object-contain"
                                     />
                                 )}
