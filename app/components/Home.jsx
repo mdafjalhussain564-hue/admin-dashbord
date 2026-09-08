@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Image from "next/image";
 
 const API_URL = "https://zamart-backend3.onrender.com";
 
@@ -381,7 +382,7 @@ function ProductCard({ product, listMode }) {
         ♡
       </button>
 
-    
+
 
       {/* Image */}
       <div
@@ -391,10 +392,11 @@ function ProductCard({ product, listMode }) {
             : "flex h-[190px] items-center justify-center p-5"
         }
       >
-
-        <img
-          src={`https://zamart-backend3.onrender.com${product.image}`}
-          alt={product.product_name || product.name}
+        <Image
+          src={product.image}
+          alt={product.product_name || product.name || "Product"}
+          width={300}
+          height={300}
           className="h-full w-full object-contain"
         />
 
