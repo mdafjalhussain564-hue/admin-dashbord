@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -10,6 +11,9 @@ const API_URL = "https://zamart-backend3.onrender.com";
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [viewMode, setViewMode] = useState("grid");
+
+  // Mobile sidebar state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -26,11 +30,15 @@ export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-[#f1f3f8]">
 
-      {/* ================= SIDEBAR ================= */}
-      <aside className="fixed left-0 top-0 hidden h-screen w-[250px] bg-[#191f2d] text-white lg:block">
+      {/* =====================================================
+          DESKTOP SIDEBAR
+      ====================================================== */}
+
+      <aside className="fixed left-0 top-0 z-40 hidden h-screen w-[250px] bg-[#191f2d] text-white lg:block">
 
         {/* Logo */}
         <div className="flex h-[75px] items-center border-b border-gray-700 px-7">
+
           <div className="mr-3 flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-400">
             ◉
           </div>
@@ -38,133 +46,288 @@ export default function ProductsPage() {
           <h1 className="text-lg font-bold">
             Dashboard
           </h1>
+
         </div>
 
+
+        {/* Navigation */}
         <div className="px-5 py-7">
 
           <p className="mb-5 text-[10px] font-semibold uppercase tracking-widest text-indigo-400">
             Navigation
           </p>
 
-          <SidebarItem icon="⌂" title="Dashboard" />
-          <Link href="/addnewproduct"><SidebarItem icon="◇" title="Add product" /></Link>
-          <Link href="/editanddelet"><SidebarItem icon="▦" title="product edit & delete" /></Link>
-          <Link href="/users"><SidebarItem icon="♙" title="User" /></Link>
-          <Link href="/orders"> <SidebarItem icon="▤" title="orders" /></Link>
+          <SidebarItem
+            icon="⌂"
+            title="Dashboard"
+          />
 
-          {/* <p className="mb-5 mt-8 text-[10px] font-semibold uppercase tracking-widest text-indigo-400">
-            Elements
-          </p>
+          <Link
+            href="/addnewproduct"
+            className="block"
+          >
+            <SidebarItem
+              icon="◇"
+              title="Add product"
+            />
+          </Link>
 
-          <SidebarItem icon="▣" title="Basic" />
-          <SidebarItem icon="◈" title="Advance" />
-          <SidebarItem icon="◎" title="Icons" />
+          <Link
+            href="/editanddelet"
+            className="block"
+          >
+            <SidebarItem
+              icon="▦"
+              title="product edit & delete"
+            />
+          </Link>
 
-          <p className="mb-5 mt-8 text-[10px] font-semibold uppercase tracking-widest text-indigo-400">
-            Forms
-          </p>
+          <Link
+            href="/users"
+            className="block"
+          >
+            <SidebarItem
+              icon="♙"
+              title="User"
+            />
+          </Link>
 
-          <SidebarItem icon="▤" title="Forms Elements" />
-          <SidebarItem icon="✎" title="Forms Plugins" />
-          <SidebarItem icon="☷" title="Text Editors" />
-          <SidebarItem icon="▥" title="Form Layouts" />
-          <SidebarItem icon="▱" title="File upload" />
-          <SidebarItem icon="✓" title="Form Validation" /> */}
+          <Link
+            href="/orders"
+            className="block"
+          >
+            <SidebarItem
+              icon="▤"
+              title="orders"
+            />
+          </Link>
 
         </div>
+
       </aside>
 
 
+      {/* =====================================================
+          MOBILE OVERLAY
+      ====================================================== */}
+
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+        />
+      )}
+
+
+      {/* =====================================================
+          MOBILE SIDEBAR
+      ====================================================== */}
+
+      <aside
+        className={`
+          fixed left-0 top-0 z-50 h-screen w-[270px]
+          bg-[#191f2d] text-white shadow-2xl
+          transition-transform duration-300 ease-in-out
+          lg:hidden
+          ${
+            sidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full"
+          }
+        `}
+      >
+
+        {/* Mobile Sidebar Header */}
+        <div className="flex h-[75px] items-center justify-between border-b border-gray-700 px-5">
+
+          <div className="flex items-center">
+
+            <div className="mr-3 flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-400">
+              ◉
+            </div>
+
+            <h1 className="text-lg font-bold">
+              Dashboard
+            </h1>
+
+          </div>
+
+
+          {/* Close Button */}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="flex h-9 w-9 items-center justify-center rounded-md text-2xl text-gray-300 hover:bg-[#252d3d] hover:text-white"
+            aria-label="Close menu"
+          >
+            ×
+          </button>
+
+        </div>
+
+
+        {/* Mobile Navigation */}
+        <div className="px-5 py-7">
+
+          <p className="mb-5 text-[10px] font-semibold uppercase tracking-widest text-indigo-400">
+            Navigation
+          </p>
+
+
+          {/* Dashboard */}
+          <div
+            onClick={() => setSidebarOpen(false)}
+          >
+            <SidebarItem
+              icon="⌂"
+              title="Dashboard"
+            />
+          </div>
+
+
+          {/* Add Product */}
+          <Link
+            href="/addnewproduct"
+            onClick={() => setSidebarOpen(false)}
+            className="block"
+          >
+            <SidebarItem
+              icon="◇"
+              title="Add product"
+            />
+          </Link>
+
+
+          {/* Edit Delete */}
+          <Link
+            href="/editanddelet"
+            onClick={() => setSidebarOpen(false)}
+            className="block"
+          >
+            <SidebarItem
+              icon="▦"
+              title="product edit & delete"
+            />
+          </Link>
+
+
+          {/* Users */}
+          <Link
+            href="/users"
+            onClick={() => setSidebarOpen(false)}
+            className="block"
+          >
+            <SidebarItem
+              icon="♙"
+              title="User"
+            />
+          </Link>
+
+
+          {/* Orders */}
+          <Link
+            href="/orders"
+            onClick={() => setSidebarOpen(false)}
+            className="block"
+          >
+            <SidebarItem
+              icon="▤"
+              title="orders"
+            />
+          </Link>
+
+        </div>
+
+      </aside>
+
+
+      {/* =====================================================
+          MAIN
+      ====================================================== */}
 
       <main className="lg:ml-[250px]">
 
-        {/* ================= TOP NAVBAR ================= */}
-        {/* <header className="flex h-[75px] items-center justify-between border-b bg-white px-5 shadow-sm md:px-8">
 
-          <div className="flex items-center gap-4">
+        {/* =====================================================
+            MOBILE TOP BAR
+        ====================================================== */}
 
-            <button className="rounded-md bg-indigo-100 px-4 py-2 text-sm font-semibold text-indigo-600">
-              Level
-            </button>
+        <div className="sticky top-0 z-30 flex h-[60px] items-center bg-white px-4 shadow-sm lg:hidden">
 
-            <span className="text-sm text-gray-500">
-              Mega
-            </span>
-
-          </div>
-
-
-          <div className="flex items-center gap-5">
-
-            <span className="cursor-pointer text-xl text-gray-500">
-              🔍
-            </span>
-
-            <span className="relative cursor-pointer text-xl">
-              🛒
-              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-green-500 text-[9px] text-white">
-                3
-              </span>
-            </span>
-
-            <span className="relative cursor-pointer text-xl">
-              🔔
-              <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-red-500"></span>
-            </span> 
-
-             <div className="hidden items-center gap-3 md:flex">
-
-              <img
-                src="https://i.pravatar.cc/100?img=12"
-                className="h-10 w-10 rounded-full"
-                alt="admin"
-              /> 
-
-              <div>
-                <p className="text-sm font-semibold text-gray-700">
-                  Joseph William
-                </p>
-
-                <p className="text-xs text-gray-400">
-                  Administrator
-                </p>
-              </div>
-
-            </div>
-
-          </div>
-        </header> */}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="flex h-10 w-10 items-center justify-center rounded-md bg-[#191f2d] text-xl text-white shadow-sm active:scale-95"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
 
 
-        {/* ================= CONTENT ================= */}
-        <section className="p-4 md:p-6">
+          <h1 className="ml-3 text-base font-semibold text-gray-700">
+            Dashboard
+          </h1>
 
-          {/* Breadcrumb */}
-          <div className="mb-5">
+        </div>
 
-            <h2 className="text-lg font-semibold text-gray-800">
+
+        {/* =====================================================
+            CONTENT
+        ====================================================== */}
+
+        <section className="p-3 sm:p-4 md:p-6">
+
+
+          {/* =====================================================
+              BREADCRUMB
+          ====================================================== */}
+
+          <div className="mb-4 sm:mb-5">
+
+            <h2 className="text-lg font-semibold text-gray-800 sm:text-xl">
               Product
             </h2>
 
-            <div className="mt-2 text-xs text-gray-400">
+            <div className="mt-2 text-[11px] text-gray-400 sm:text-xs">
+
               Home
-              <span className="mx-2">›</span>
+
+              <span className="mx-2">
+                ›
+              </span>
+
               E-Commerce
-              <span className="mx-2">›</span>
+
+              <span className="mx-2">
+                ›
+              </span>
+
               Product
+
             </div>
 
           </div>
 
 
+          {/* =====================================================
+              MAIN FLEX
+          ====================================================== */}
+
           <div className="flex gap-5">
 
-            {/* ================= FILTER ================= */}
+
+            {/* =====================================================
+                FILTER SIDEBAR
+            ====================================================== */}
+
             <aside className="hidden w-[205px] shrink-0 rounded-md bg-white p-4 shadow-sm xl:block">
 
               <div className="mb-5 flex items-center gap-2 text-sm font-semibold text-gray-600">
-                <span>⚱</span>
+
+                <span>
+                  ⚱
+                </span>
+
                 Filter
+
               </div>
 
 
@@ -174,7 +337,9 @@ export default function ProductsPage() {
                 <div className="flex">
 
                   <select className="w-1/2 rounded-l border p-2 text-xs outline-none">
-                    <option>Min</option>
+                    <option>
+                      Min
+                    </option>
                   </select>
 
                   <div className="flex items-center border-y px-2 text-xs text-gray-400">
@@ -182,7 +347,9 @@ export default function ProductsPage() {
                   </div>
 
                   <select className="w-1/2 rounded-r border p-2 text-xs outline-none">
-                    <option>Max</option>
+                    <option>
+                      Max
+                    </option>
                   </select>
 
                 </div>
@@ -230,47 +397,82 @@ export default function ProductsPage() {
             </aside>
 
 
-            {/* ================= PRODUCTS ================= */}
+            {/* =====================================================
+                PRODUCTS AREA
+            ====================================================== */}
+
             <div className="min-w-0 flex-1">
 
-              {/* Toolbar */}
-              <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-md bg-white p-4 shadow-sm">
 
-                <div className="flex gap-5 text-xs text-gray-500">
+              {/* =====================================================
+                  TOOLBAR
+              ====================================================== */}
 
-                  <button className="flex items-center gap-1">
+              <div className="mb-4 flex flex-col gap-3 rounded-md bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-4">
+
+
+                {/* Sort */}
+                <div className="flex items-center gap-4 text-xs text-gray-500 sm:gap-5">
+
+                  <button className="flex items-center gap-1 whitespace-nowrap">
+
                     📅 By Date
-                    <span>⌄</span>
+
+                    <span>
+                      ⌄
+                    </span>
+
                   </button>
 
-                  <button className="flex items-center gap-1">
+
+                  <button className="flex items-center gap-1 whitespace-nowrap">
+
                     ▤ By Price
-                    <span>⌄</span>
+
+                    <span>
+                      ⌄
+                    </span>
+
                   </button>
 
                 </div>
 
 
-                <div className="flex items-center gap-2 text-xs text-gray-500">
+                {/* View Mode */}
+                <div className="flex items-center justify-between gap-2 text-xs text-gray-500 sm:justify-end">
 
-                  <span>View Mode:</span>
+                  <span>
+                    View Mode:
+                  </span>
 
+
+                  {/* Grid */}
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`rounded px-3 py-2 ${viewMode === "grid"
-                      ? "bg-indigo-500 text-white"
-                      : "bg-gray-100"
-                      }`}
+                    className={`
+                      rounded px-3 py-2 transition
+                      ${
+                        viewMode === "grid"
+                          ? "bg-indigo-500 text-white"
+                          : "bg-gray-100 text-gray-500"
+                      }
+                    `}
                   >
                     ▦
                   </button>
 
+
+                  {/* List */}
                   <button
                     onClick={() => setViewMode("list")}
-                    className={`rounded px-3 py-2 ${viewMode === "list"
-                      ? "bg-indigo-500 text-white"
-                      : "bg-gray-100"
-                      }`}
+                    className={`
+                      rounded px-3 py-2 transition
+                      ${
+                        viewMode === "list"
+                          ? "bg-indigo-500 text-white"
+                          : "bg-gray-100 text-gray-500"
+                      }
+                    `}
                   >
                     ☷
                   </button>
@@ -280,24 +482,46 @@ export default function ProductsPage() {
               </div>
 
 
-              {/* Product Grid */}
+              {/* =====================================================
+                  PRODUCT GRID
+              ====================================================== */}
+
               <div
                 className={
                   viewMode === "grid"
-                    ? "grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
-                    : "space-y-4"
+                    ? `
+                      grid
+                      grid-cols-1
+                      min-[400px]:grid-cols-2
+                      gap-3
+                      sm:gap-4
+                      xl:grid-cols-3
+                    `
+                    : "space-y-3 sm:space-y-4"
                 }
               >
 
-                {products.map((product) => (
+                {products.length > 0 ? (
 
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    listMode={viewMode === "list"}
-                  />
+                  products.map((product) => (
 
-                ))}
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      listMode={viewMode === "list"}
+                    />
+
+                  ))
+
+                ) : (
+
+                  <div className="col-span-full rounded-md bg-white py-10 text-center text-sm text-gray-400">
+
+                    No products found.
+
+                  </div>
+
+                )}
 
               </div>
 
@@ -314,47 +538,76 @@ export default function ProductsPage() {
 }
 
 
-/* ================= COMPONENTS ================= */
+/* =====================================================
+   SIDEBAR ITEM
+===================================================== */
 
 function SidebarItem({ icon, title }) {
-  return (
-    <div className="mb-2 flex cursor-pointer items-center justify-between rounded-md px-3 py-3 text-sm text-gray-300 hover:bg-[#252d3d] hover:text-white">
 
-      <div className="flex items-center gap-3">
-        <span className="w-5 text-gray-400">
+  return (
+
+    <div className="mb-2 flex cursor-pointer items-center justify-between rounded-md px-3 py-3 text-sm text-gray-300 transition hover:bg-[#252d3d] hover:text-white">
+
+      <div className="flex min-w-0 items-center gap-3">
+
+        <span className="w-5 shrink-0 text-gray-400">
           {icon}
         </span>
 
-        <span>{title}</span>
+        <span className="truncate">
+          {title}
+        </span>
+
       </div>
+
 
       <span className="text-gray-500">
         ›
       </span>
 
     </div>
+
   );
 }
 
 
+/* =====================================================
+   FILTER SECTION
+===================================================== */
+
 function FilterSection({ title, children }) {
+
   return (
+
     <div className="border-b py-4">
 
       <div className="mb-3 flex items-center justify-between text-xs font-semibold text-gray-700">
+
         {title}
-        <span>⌄</span>
+
+        <span>
+          ⌄
+        </span>
+
       </div>
 
       {children}
 
     </div>
+
   );
+
 }
 
 
+/* =====================================================
+   CHECKBOX
+===================================================== */
+
 function Checkbox({ label }) {
+
   return (
+
     <label className="mb-2 flex cursor-pointer items-center gap-2 text-xs text-gray-500">
 
       <input
@@ -365,36 +618,73 @@ function Checkbox({ label }) {
       {label}
 
     </label>
+
   );
+
 }
 
+
+/* =====================================================
+   PRODUCT CARD
+===================================================== */
 
 function ProductCard({ product, listMode }) {
 
   return (
+
     <div
-      className={`relative overflow-hidden rounded-md bg-white shadow-sm transition hover:shadow-md ${listMode ? "flex items-center gap-5 p-4" : ""
-        }`}
+      className={`
+        relative overflow-hidden rounded-md bg-white shadow-sm
+        transition hover:shadow-md
+        ${
+          listMode
+            ? "flex items-center gap-3 p-3 sm:gap-5 sm:p-4"
+            : ""
+        }
+      `}
     >
 
-      {/* Wishlist */}
-      <button className="absolute right-4 top-4 z-10 text-xl text-gray-400 hover:text-red-500">
+
+      {/* =====================================================
+          WISHLIST
+      ====================================================== */}
+
+      <button
+        className="
+          absolute right-3 top-3 z-10
+          text-lg text-gray-400
+          hover:text-red-500
+          sm:right-4 sm:top-4 sm:text-xl
+        "
+      >
         ♡
       </button>
 
 
+      {/* =====================================================
+          IMAGE
+      ====================================================== */}
 
-      {/* Image */}
       <div
         className={
           listMode
-            ? "h-32 w-40 shrink-0"
-            : "flex h-[190px] items-center justify-center p-5"
+            ? "h-24 w-24 shrink-0 sm:h-32 sm:w-40"
+            : `
+              flex h-[175px] w-full
+              items-center justify-center
+              p-4
+              sm:h-[190px] sm:p-5
+            `
         }
       >
+
         <Image
           src={product.image}
-          alt={product.product_name || product.name || "Product"}
+          alt={
+            product.product_name ||
+            product.name ||
+            "Product"
+          }
           width={300}
           height={300}
           className="h-full w-full object-contain"
@@ -403,29 +693,53 @@ function ProductCard({ product, listMode }) {
       </div>
 
 
-      {/* Details */}
-      <div className={listMode ? "flex-1" : "px-4 pb-5"}>
+      {/* =====================================================
+          DETAILS
+      ====================================================== */}
 
+      <div
+        className={
+          listMode
+            ? "min-w-0 flex-1 pr-7"
+            : "px-3 pb-4 sm:px-4 sm:pb-5"
+        }
+      >
+
+        {/* Brand */}
         <p className="mb-1 text-[9px] font-semibold uppercase text-gray-400">
+
           {product.brand || "ADIDAS"}
+
         </p>
 
-        <h3 className="line-clamp-1 text-sm font-medium text-gray-700">
+
+        {/* Product Name */}
+        <h3 className="line-clamp-2 text-sm font-medium text-gray-700">
+
           {product.product_name || product.name}
+
         </h3>
 
 
-        <div className="mt-2 flex items-center gap-2">
+        {/* Price */}
+        <div className="mt-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
 
           <span className="text-base font-semibold text-indigo-600">
-            ₹{Number(product.price || 1499).toLocaleString("en-IN")}
+
+            ₹
+            {Number(
+              product.price || 1499
+            ).toLocaleString("en-IN")}
+
           </span>
 
-          <span className="text-xs text-red-400 line-through">
+
+          <span className="text-[11px] text-red-400 line-through sm:text-xs">
             ₹4,999
           </span>
 
-          <span className="text-[10px] font-semibold text-green-500">
+
+          <span className="text-[9px] font-semibold text-green-500 sm:text-[10px]">
             70% off
           </span>
 
@@ -434,5 +748,7 @@ function ProductCard({ product, listMode }) {
       </div>
 
     </div>
+
   );
 }
+

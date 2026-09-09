@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 const Page = () => {
 
@@ -185,6 +186,9 @@ const Page = () => {
                 >
                     Save Product
                 </button>
+
+
+                <Link href="/"><button className="bg-black ml-3 text-white px-6 py-2 rounded mt-5">back to home</button></Link>
 
             </div>
         </div>
